@@ -45,6 +45,7 @@ double findMedian(int num) {
 
 int main() {
     int n;
+    chrono::duration<double> total = chrono::duration<double>::zero();
     
     if (scanf("%d", &n) != 1) {
         cerr << "Error: no se pudo leer la cantidad de valores (n).\n";
@@ -61,18 +62,16 @@ int main() {
 
     vector<double> medianas(n, 0.0);
 
-    auto startTime = chrono::high_resolution_clock::now(); // algorythm start
-
     for(int i = 0; i < n; i++){
+        auto startTime = chrono::high_resolution_clock::now(); // algorythm start
         medianas[i] = findMedian(nr[i]);
+        auto endTime = chrono::high_resolution_clock::now(); // algorythm end
+        chrono::duration<double> diff = endTime - startTime;
+        cout << "Tiempo de corrida para posición (" << i+1 << ") es de: " << diff.count() << " segundos.\n";
+        total = total + diff;
     }
 
-    auto endTime = chrono::high_resolution_clock::now(); // algorythm end
-
-    chrono::duration<double> diff = endTime - startTime;
-
-    cout << "Tiempo de corrida: " << diff.count() << " segundos.\n";
-
+    cout << "Tiempo total de corrida: " << total.count() << " segundos.\n";
     cout << "Mediana: " << medianas[n-1] << "\n";
 
     return 0;
